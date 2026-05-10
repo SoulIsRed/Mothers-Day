@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>A Letter For You, Mom</title>
 
+<!-- silence favicon 404 -->
+<link rel="icon" href="data:," />
+
 <!-- ============================================== -->
 <!--   FONTS — change here if you want a new look   -->
 <!-- ============================================== -->
@@ -15,8 +18,6 @@
 <style>
 /* ===================================================
    🌷  THEME VARIABLES — easy customization
-   Change any color or font here and the whole page
-   updates. No need to dig through the rest of the CSS.
    =================================================== */
 :root {
   --cream:        #f5ecd9;
@@ -57,7 +58,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* subtle paper grain over everything */
 body::before {
   content: '';
   position: fixed; inset: 0;
@@ -69,7 +69,7 @@ body::before {
 }
 
 /* ===================================================
-   FLOATING PETALS in the background
+   FLOATING PETALS
    =================================================== */
 .petals { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 2; }
 .petal {
@@ -156,13 +156,11 @@ body::before {
   backface-visibility: hidden;
 }
 .envelope-flap::after {
-  /* underside shading when it opens */
   content: '';
   position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(0,0,0,0.18), transparent);
 }
 
-/* the actual letter that lives inside the envelope and slides out */
 .letter-peek {
   position: absolute;
   top: 12%; left: 6%; right: 6%;
@@ -195,14 +193,12 @@ body::before {
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .seal::before {
-  /* wax drip texture */
   content: '';
   position: absolute; inset: 4px;
   border-radius: 50%;
   border: 1.5px dashed rgba(245, 236, 217, 0.35);
 }
 
-/* prompt under the envelope */
 .open-prompt {
   position: absolute;
   bottom: -70px; left: 50%;
@@ -234,18 +230,15 @@ body::before {
 .envelope-stage:hover { transform: translateY(-4px) rotate(-1deg); }
 
 /* ============= OPENING SEQUENCE STATES ============= */
-
-/* stage 1: seal fades, flap opens */
 body.flap-open .seal { opacity: 0; transform: translate(-50%, -50%) scale(0.6) rotate(20deg); }
 body.flap-open .envelope-flap { transform: rotateX(-180deg); z-index: 1; }
 body.flap-open .open-prompt   { opacity: 0; animation: none; }
 
-/* stage 2: letter peeks out far above the envelope, envelope drifts away */
 body.letter-out .letter-peek    { transform: translateY(-180%); }
 body.letter-out .envelope-stage { transform: translateY(80vh) scale(0.6); opacity: 0; }
 
 /* ===================================================
-   THE FULL-SIZE LETTER (revealed after envelope opens)
+   THE LETTER
    =================================================== */
 .letter-stage {
   position: fixed; inset: 0;
@@ -288,7 +281,6 @@ body.letter-revealed .letter-stage {
   .letter-paper { padding: 50px 30px 60px; font-size: 16px; }
 }
 
-/* torn-paper top edge effect */
 .letter-paper::before {
   content: '';
   position: absolute;
@@ -316,6 +308,14 @@ body.letter-revealed .letter-stage {
 }
 .letter-message p { margin-bottom: 1.1em; }
 
+/* poem stanza style — centered, tighter */
+.letter-message p.stanza {
+  text-align: center;
+  line-height: 1.7;
+  margin: 1.4em auto;
+  max-width: 90%;
+}
+
 .letter-sign-off {
   margin-top: 36px;
   font-style: italic;
@@ -330,7 +330,6 @@ body.letter-revealed .letter-stage {
   line-height: 1;
 }
 
-/* small heart accent */
 .letter-paper .accent {
   position: absolute;
   bottom: 22px; right: 28px;
@@ -338,26 +337,20 @@ body.letter-revealed .letter-stage {
   opacity: 0.7;
 }
 
-/* fade-in lines */
+/* fade-in: animation runs, JS sets each delay */
 body.letter-revealed .letter-greeting,
 body.letter-revealed .letter-message p,
 body.letter-revealed .letter-sign-off,
 body.letter-revealed .letter-signature {
   animation: lineFade 0.9s ease both;
 }
-body.letter-revealed .letter-greeting       { animation-delay: 0.2s; }
-body.letter-revealed .letter-message p:nth-child(1) { animation-delay: 0.6s; }
-body.letter-revealed .letter-message p:nth-child(2) { animation-delay: 0.9s; }
-body.letter-revealed .letter-message p:nth-child(3) { animation-delay: 1.2s; }
-body.letter-revealed .letter-message p:nth-child(4) { animation-delay: 1.5s; }
-body.letter-revealed .letter-message p:nth-child(5) { animation-delay: 1.8s; }
-body.letter-revealed .letter-sign-off       { animation-delay: 2.1s; }
-body.letter-revealed .letter-signature      { animation-delay: 2.4s; }
 
 .letter-greeting,
 .letter-message p,
 .letter-sign-off,
 .letter-signature { opacity: 0; }
+
+body.letter-revealed .letter-greeting { animation-delay: 0.2s; }
 
 @keyframes lineFade {
   from { opacity: 0; transform: translateY(8px); }
@@ -365,7 +358,7 @@ body.letter-revealed .letter-signature      { animation-delay: 2.4s; }
 }
 
 /* ===================================================
-   FLORAL GARLAND on top of the letter
+   FLORAL GARLAND
    =================================================== */
 .garland {
   position: absolute;
@@ -396,7 +389,6 @@ body.letter-revealed .garland .bloom:nth-child(5) { transition-delay: 0.75s; }
 body.letter-revealed .garland .bloom:nth-child(6) { transition-delay: 0.90s; }
 body.letter-revealed .garland .bloom:nth-child(7) { transition-delay: 1.05s; }
 
-/* corner flower on letter */
 .corner-flower {
   position: absolute;
   bottom: -18px; left: -18px;
@@ -411,7 +403,7 @@ body.letter-revealed .corner-flower {
 }
 
 /* ===================================================
-   MUSIC BUTTON
+   MUSIC + REPLAY BUTTONS
    =================================================== */
 .music-btn {
   position: fixed;
@@ -436,9 +428,6 @@ body.letter-revealed .music-btn { opacity: 1; transform: translateY(0); }
 .music-btn.playing .icon-play  { display: none; }
 .music-btn.playing .icon-pause { display: block; }
 
-/* ===================================================
-   RESET / REPLAY BUTTON
-   =================================================== */
 .replay-btn {
   position: fixed;
   bottom: 24px; left: 24px;
@@ -462,17 +451,10 @@ body.letter-revealed .replay-btn { opacity: 1; }
 </head>
 <body>
 
-<!--
-  ╔═══════════════════════════════════════════════════════════╗
-  ║   ✿  CUSTOMIZE EVERYTHING IN THE CONFIG OBJECT BELOW  ✿   ║
-  ║   Scroll down to the <script> tag near the bottom         ║
-  ╚═══════════════════════════════════════════════════════════╝
--->
-
-<!-- background petals (auto-generated by JS) -->
+<!-- background petals -->
 <div class="petals" id="petals"></div>
 
-<!-- ============= CLOSED ENVELOPE ============= -->
+<!-- CLOSED ENVELOPE -->
 <div class="scene">
   <div class="envelope-stage" id="envelopeStage">
     <div class="envelope">
@@ -486,15 +468,11 @@ body.letter-revealed .replay-btn { opacity: 1; }
   </div>
 </div>
 
-<!-- ============= OPENED LETTER ============= -->
+<!-- OPENED LETTER -->
 <div class="letter-stage">
   <div class="letter-paper">
 
-    <!-- floral garland on top -->
     <div class="garland">
-      <!-- 7 stylized blooms; SVG so they're crisp at any size -->
-
-      <!-- bloom 1: dusty rose -->
       <svg class="bloom" viewBox="0 0 70 90" xmlns="http://www.w3.org/2000/svg">
         <path d="M35 90 Q35 55 35 40" stroke="#6f8662" stroke-width="2" fill="none" stroke-linecap="round"/>
         <ellipse cx="22" cy="65" rx="9" ry="4" fill="#9caf88" transform="rotate(-30 22 65)"/>
@@ -509,8 +487,6 @@ body.letter-revealed .replay-btn { opacity: 1; }
           <circle r="2.5" fill="#a08542"/>
         </g>
       </svg>
-
-      <!-- bloom 2: small white -->
       <svg class="bloom" viewBox="0 0 70 90" xmlns="http://www.w3.org/2000/svg">
         <path d="M35 90 Q35 55 35 35" stroke="#6f8662" stroke-width="1.8" fill="none" stroke-linecap="round"/>
         <ellipse cx="28" cy="60" rx="7" ry="3" fill="#9caf88" transform="rotate(-25 28 60)"/>
@@ -524,8 +500,6 @@ body.letter-revealed .replay-btn { opacity: 1; }
           <circle r="4" fill="#c9a961"/>
         </g>
       </svg>
-
-      <!-- bloom 3: deep burgundy -->
       <svg class="bloom" viewBox="0 0 70 90" xmlns="http://www.w3.org/2000/svg">
         <path d="M35 90 Q35 55 35 40" stroke="#6f8662" stroke-width="2" fill="none" stroke-linecap="round"/>
         <ellipse cx="20" cy="68" rx="10" ry="4" fill="#9caf88" transform="rotate(-35 20 68)"/>
@@ -537,8 +511,6 @@ body.letter-revealed .replay-btn { opacity: 1; }
           <circle r="3" fill="#c9a961"/>
         </g>
       </svg>
-
-      <!-- bloom 4: large peony center -->
       <svg class="bloom" viewBox="0 0 70 90" xmlns="http://www.w3.org/2000/svg">
         <path d="M35 90 Q35 55 35 38" stroke="#6f8662" stroke-width="2.2" fill="none" stroke-linecap="round"/>
         <ellipse cx="20" cy="62" rx="11" ry="4.5" fill="#9caf88" transform="rotate(-30 20 62)"/>
@@ -558,8 +530,6 @@ body.letter-revealed .replay-btn { opacity: 1; }
           <circle r="4" fill="#c9a961"/>
         </g>
       </svg>
-
-      <!-- bloom 5: same as 3 -->
       <svg class="bloom" viewBox="0 0 70 90" xmlns="http://www.w3.org/2000/svg">
         <path d="M35 90 Q35 55 35 40" stroke="#6f8662" stroke-width="2" fill="none" stroke-linecap="round"/>
         <ellipse cx="50" cy="65" rx="10" ry="4" fill="#9caf88" transform="rotate(35 50 65)"/>
@@ -571,8 +541,6 @@ body.letter-revealed .replay-btn { opacity: 1; }
           <circle r="3" fill="#c9a961"/>
         </g>
       </svg>
-
-      <!-- bloom 6: small white -->
       <svg class="bloom" viewBox="0 0 70 90" xmlns="http://www.w3.org/2000/svg">
         <path d="M35 90 Q35 55 35 35" stroke="#6f8662" stroke-width="1.8" fill="none" stroke-linecap="round"/>
         <ellipse cx="42" cy="60" rx="7" ry="3" fill="#9caf88" transform="rotate(25 42 60)"/>
@@ -586,8 +554,6 @@ body.letter-revealed .replay-btn { opacity: 1; }
           <circle r="4" fill="#c9a961"/>
         </g>
       </svg>
-
-      <!-- bloom 7: dusty rose -->
       <svg class="bloom" viewBox="0 0 70 90" xmlns="http://www.w3.org/2000/svg">
         <path d="M35 90 Q35 55 35 40" stroke="#6f8662" stroke-width="2" fill="none" stroke-linecap="round"/>
         <ellipse cx="48" cy="65" rx="9" ry="4" fill="#9caf88" transform="rotate(35 48 65)"/>
@@ -608,7 +574,6 @@ body.letter-revealed .replay-btn { opacity: 1; }
     <p class="letter-sign-off" id="signOff"></p>
     <p class="letter-signature" id="signature"></p>
 
-    <!-- corner flower (bottom-left of paper) -->
     <svg class="corner-flower" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
       <path d="M20 85 Q35 55 55 35" stroke="#6f8662" stroke-width="2" fill="none" stroke-linecap="round"/>
       <ellipse cx="35" cy="60" rx="10" ry="4" fill="#9caf88" transform="rotate(-30 35 60)"/>
@@ -623,7 +588,6 @@ body.letter-revealed .replay-btn { opacity: 1; }
       </g>
     </svg>
 
-    <!-- subtle heart accent in opposite corner -->
     <svg class="accent" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
       <path d="M16 28 C 6 20, 2 12, 8 7 C 12 4, 15 7, 16 9 C 17 7, 20 4, 24 7 C 30 12, 26 20, 16 28 Z"
             fill="#d97a87" opacity="0.6"/>
@@ -631,7 +595,6 @@ body.letter-revealed .replay-btn { opacity: 1; }
   </div>
 </div>
 
-<!-- music + replay buttons -->
 <button class="music-btn" id="musicBtn" title="Play / pause music" aria-label="Play music">
   <svg class="icon-play"  viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
   <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
@@ -639,7 +602,6 @@ body.letter-revealed .replay-btn { opacity: 1; }
 
 <button class="replay-btn" id="replayBtn">↺ seal it back up</button>
 
-<!-- hidden audio element -->
 <audio id="bgMusic" loop preload="auto"></audio>
 
 
@@ -649,65 +611,72 @@ body.letter-revealed .replay-btn { opacity: 1; }
    ║                    🌸  CONFIG  🌸                          ║
    ║   Edit this object to personalize the whole letter.       ║
    ╚═══════════════════════════════════════════════════════════╝
+
+   PARAGRAPH RULES:
+   • Each "..." is one paragraph.
+   • EVERY paragraph MUST end with a comma (this is what caused
+     the "Unexpected string" error before).
+   • Use \n inside a string for a line break (great for poetry).
+   • Use { stanza: true, text: "..." } to style a paragraph as
+     a centered poem stanza with tighter line spacing.
    ════════════════════════════════════════════════════════════════ */
 const CONFIG = {
 
-  // What appears on the wax seal (1 letter or short emoji works best)
   sealLetter: "M",
 
-  // The greeting at the top of the letter
   greeting: "Dear Mom,",
 
-  // The body of the letter — each string becomes its own paragraph.
-  // Add or remove paragraphs as you like.
   message: [
-    "Happy Mothers Day Mom, Through my darkest nights and brightest days. I have never forgotten you, You are my mother and the shining light of my soul.",
-     "Today is not just a ordinary day, But its your day. The Day where we celebrate your journey has a mother and the day you started to conveice me in your womb.",
-      "I dont say these things outloud, I tend to forget these things but let me remind you that your the BEST Mother anyone can ever have!",
-      "My friends always tell me that and to know that another kid could have gotten my mother but i became the statistical impossibility and gotten you makes me happy.",
-      "In 20 years, I am sure that i will be thanking my mother for everything, for keeping me alive. For keeping my burning heart keep burning.",
-      "Because to be honest mom, Without you. I wouldn't be in this state now. Trying to make everyone smiles and kindness even when the world tells me i need to stop.",
-      "I never do this for mother's day, But if its for the best mother any kid can have. I am sure to do it a thousand times in every universe i am alive in.",
-      "I'll never forget what you have done has a mother and the sacrifices you had to endure when you had me. For that, Thank you for everything Mom!",
+    "Happy Mother's Day, Mom. Through my darkest nights and brightest days, I have never forgotten you. You are my mother, and the shining light of my soul.",
 
-      "I could have never thought of a day,",
-      "Without my mother leading my way.",
-      "Countless stars and nights of my cry,",
-      "But my mother put my pain to rest nearby.",
+    "Today is not just an ordinary day — but your day. The day we celebrate your journey as a mother, and the day you first began carrying me into this world.",
 
-      "Today is a special day,",
-      "A day where we celebrate her way.",
-      "I can’t find all the words to say,",
-      "How much she means to me every day.",
+    "I don't say these things out loud. I tend to forget them. But let me remind you: you're the BEST mother anyone could ever have.",
 
-      "Mom, your son kept your flame,",
-      "And that flame gave your son the blaze.",
-      "A blaze in a heart now warm and true,",
-      "Filled with kindness because of you.",
+    "My friends always tell me that. And to know that any other kid could have ended up with my mother — but I became the statistical impossibility and got you — that makes me unbelievably happy.",
+
+    "In 20 years, I'm sure I'll still be thanking you for everything: for keeping me alive, and for keeping my burning heart still burning.",
+
+    "Because to be honest, Mom — without you, I wouldn't be who I am now. Still trying to spread smiles and kindness, even when the world tells me to stop.",
+
+    "I never do this for Mother's Day. But if it's for the best mother any kid could have, I'd do it a thousand times — in every universe I'm alive in.",
+
+    "I'll never forget what you've done as a mother, and the sacrifices you endured when you had me. For that — thank you for everything, Mom.",
+
+    // ── poem stanzas (centered, line-broken) ──
+    { stanza: true, text:
+      "I could have never thought of a day,\n" +
+      "Without my mother leading my way.\n" +
+      "Countless stars and nights of my cry —\n" +
+      "But my mother put my pain to rest nearby."
+    },
+
+    { stanza: true, text:
+      "Today is a special day,\n" +
+      "A day where we celebrate her way.\n" +
+      "I can't find all the words to say,\n" +
+      "How much she means to me every day."
+    },
+
+    { stanza: true, text:
+      "Mom, your son kept your flame,\n" +
+      "And that flame gave your son the blaze.\n" +
+      "A blaze in a heart now warm and true,\n" +
+      "Filled with kindness because of you."
+    }
   ],
 
-  // The line above the signature
   signOff: "Yours always,",
 
-  // Your name (rendered in the handwritten signature font)
-  signature: "Your Loving Child, Jared",
+  signature: "Your Loving Son, Jared",
 
-  // Tab title shown in the browser
   pageTitle: "A Letter For You, Mom",
 
   // ─── MUSIC ──────────────────────────────────────────────────
-  // Paste a direct .mp3 / .ogg / .wav URL here. To use a song
-  // hosted on GitHub, upload the file to a repo and use the
-  // RAW link, e.g.:
-  //   https://raw.githubusercontent.com/USER/REPO/main/song.mp3
-  // (or use a GitHub Pages URL). Leave as "" to disable music.
+  // Paste a direct .mp3 / .ogg / .wav URL. For GitHub, use the
+  // RAW link: https://raw.githubusercontent.com/USER/REPO/main/song.mp3
   musicUrl: "",
-
-  // Should the music start automatically after the letter opens?
-  // (The user has already clicked, so browsers will allow it.)
   autoplayMusic: true,
-
-  // Music volume from 0.0 (silent) to 1.0 (loud)
   musicVolume: 0.5
 };
 
@@ -715,36 +684,59 @@ const CONFIG = {
    You generally don't need to edit anything below this line.
    ════════════════════════════════════════════════════════════════ */
 
-// Apply title and seal letter
 document.title = CONFIG.pageTitle;
 document.getElementById('seal').textContent = CONFIG.sealLetter;
-
-// Inject letter content
 document.getElementById('greeting').textContent  = CONFIG.greeting;
 document.getElementById('signOff').textContent   = CONFIG.signOff;
 document.getElementById('signature').textContent = CONFIG.signature;
 
+// ── Render message paragraphs ──────────────────────────────────
 const messageBody = document.getElementById('messageBody');
-CONFIG.message.forEach(paragraph => {
+
+// Animation timing scales to however many paragraphs you have —
+// no need to update CSS when you add or remove paragraphs.
+const FADE_BASE = 0.6;     // when first paragraph appears (sec)
+const FADE_STEP = 0.28;    // delay between paragraphs (sec)
+
+CONFIG.message.forEach((item, idx) => {
   const p = document.createElement('p');
-  p.textContent = paragraph;
+
+  // Accept either plain string OR { stanza: true, text: "..." }
+  const isStanza = typeof item === 'object' && item.stanza;
+  const text     = isStanza ? item.text : item;
+
+  if (isStanza) p.classList.add('stanza');
+
+  // Convert \n into real <br> line breaks (for poetry)
+  text.split('\n').forEach((line, i, arr) => {
+    p.appendChild(document.createTextNode(line));
+    if (i < arr.length - 1) p.appendChild(document.createElement('br'));
+  });
+
+  p.style.animationDelay = (FADE_BASE + idx * FADE_STEP) + 's';
   messageBody.appendChild(p);
 });
 
-// Set up music
+// Sign-off + signature appear AFTER the last paragraph,
+// no matter how many paragraphs there are.
+const lastDelay = FADE_BASE + CONFIG.message.length * FADE_STEP;
+document.getElementById('signOff').style.animationDelay   = (lastDelay + 0.2) + 's';
+document.getElementById('signature').style.animationDelay = (lastDelay + 0.5) + 's';
+
+// ── Audio ──────────────────────────────────────────────────────
 const audio = document.getElementById('bgMusic');
 if (CONFIG.musicUrl) {
   audio.src    = CONFIG.musicUrl;
   audio.volume = CONFIG.musicVolume;
 }
 
-// Generate floating petals
+// ── Floating petals ────────────────────────────────────────────
 const petalContainer = document.getElementById('petals');
 const PETAL_COUNT = 18;
 for (let i = 0; i < PETAL_COUNT; i++) {
   const petal = document.createElement('div');
   petal.className = 'petal';
-  petal.style.left            = Math.random() * 100 + 'vw';
+  petal.style.left              = Math.random() * 100 + 'vw';
   petal.style.animationDuration = (8 + Math.random() * 10) + 's';
   petal.style.animationDelay    = (Math.random() * 12) + 's';
   petal.style.transform         = `scale(${0.6 + Math.random() * 0.8})`;
@@ -762,22 +754,19 @@ function openLetter() {
   if (isOpen) return;
   isOpen = true;
 
-  // Stage 1: seal fades, flap rotates open
+  // ── Start music IMMEDIATELY on click (this is a real user
+  //    gesture, so browsers will allow it). Don't wait for the
+  //    letter to open — start the song the moment Mom taps. ──
+  if (CONFIG.musicUrl && CONFIG.autoplayMusic) {
+    audio.play().then(() => {
+      musicBtn.classList.add('playing');
+    }).catch(() => { /* autoplay blocked anyway — button is fallback */ });
+  }
+
+  // Visual sequence — letter opening animation
   document.body.classList.add('flap-open');
-
-  // Stage 2: letter slides up out of envelope, envelope drifts away
   setTimeout(() => document.body.classList.add('letter-out'), 900);
-
-  // Stage 3: full-size letter fades in, flowers bloom, music plays
-  setTimeout(() => {
-    document.body.classList.add('letter-revealed');
-
-    if (CONFIG.musicUrl && CONFIG.autoplayMusic) {
-      audio.play().then(() => {
-        musicBtn.classList.add('playing');
-      }).catch(() => { /* autoplay blocked; user can hit the button */ });
-    }
-  }, 1700);
+  setTimeout(() => document.body.classList.add('letter-revealed'), 1700);
 }
 
 // ── Music toggle ───────────────────────────────────────────────
@@ -804,7 +793,7 @@ document.getElementById('replayBtn').addEventListener('click', () => {
   isOpen = false;
 });
 
-// Allow keyboard activation of the envelope
+// Keyboard support for the envelope
 envelopeStage.setAttribute('tabindex', '0');
 envelopeStage.setAttribute('role', 'button');
 envelopeStage.setAttribute('aria-label', 'Open the letter');
